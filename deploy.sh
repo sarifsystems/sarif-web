@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -eu
 
-rm -rf dist || exit 0;
-
 npm run build
 
 cd dist
