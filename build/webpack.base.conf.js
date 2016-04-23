@@ -18,6 +18,11 @@ module.exports = {
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
+  externals: {
+    leaflet: 'L',
+    d3: 'd3',
+    vega: 'vg'
+  },
   module: {
     preLoaders: [
       {
