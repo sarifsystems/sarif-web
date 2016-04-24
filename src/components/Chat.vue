@@ -82,15 +82,16 @@ export default {
       Stark.request(msg, (reply) => {
         this.addMessage(reply, 'in')
       })
+
+      if (this.message) {
+        this.history.push(this.message)
+      }
       this.addMessage(msg, 'out')
     },
 
     addMessage (msg, dir) {
       msg.dir = dir
       if (dir === 'in') {
-        if (this.message) {
-          this.history.push(this.message)
-        }
         this.message = msg
       } else {
         this.history.push(msg)

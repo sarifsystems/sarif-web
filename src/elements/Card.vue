@@ -57,6 +57,7 @@ import FormTile from './tiles/FormTile.vue'
 import MapsTile from './tiles/MapsTile.vue'
 import ChartTile from './tiles/ChartTile.vue'
 import SendTile from './tiles/SendTile.vue'
+import PreviewTile from './tiles/PreviewTile.vue'
 
 export default {
   props: ['card'],
@@ -70,6 +71,7 @@ export default {
         {name: 'Overview', title: 'Overview', icon: 'fa-columns'},
         {name: 'Form', title: 'Edit', icon: 'fa-pencil'},
         {name: 'Raw', title: 'Raw JSON', icon: 'fa-code'},
+        {name: 'Preview', title: 'Preview', icon: 'fa-image'},
         {name: 'Maps', title: 'Maps', icon: 'fa-map'},
         {name: 'Chart', title: 'Chart', icon: 'fa-area-chart'}
       ]
@@ -99,6 +101,7 @@ export default {
     FormTile: FormTile,
     MapsTile: MapsTile,
     ChartTile: ChartTile,
-    SendTile: SendTile
+    SendTile: SendTile,
+    PreviewTile: PreviewTile
   }
 }

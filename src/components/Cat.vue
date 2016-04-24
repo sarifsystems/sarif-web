@@ -102,6 +102,26 @@ export default {
       headText: '=^.^=',
       bodyText: 'Hi.'
     }
+  },
+
+  methods: {
+    blink () {
+      var orig = this.headText
+      this.headText = '-  -'
+      window.setTimeout(() => {
+        this.headText = orig
+      }, 250)
+    }
+  },
+
+  ready () {
+    this.interval = window.setInterval(() => {
+      this.blink()
+    }, 5000)
+  },
+
+  beforeDestroy () {
+    window.clearInterval(this.interval)
   }
 }
 </script>
