@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-bind:class="[expanded ? 'pure-u-24-24' : 'pure-u-6-24', expanded ? 'expanded' : null]">
+  <div class="card" v-bind:class="[expanded ? 'expanded' : 'null']">
     <div class="card-header">
       <div class="pure-menu pure-menu-horizontal">
         <ul class="pure-menu-list menu-flex">
@@ -14,7 +14,7 @@
           </li>
 
           <li class="pure-menu-item menu-small">
-            <a href="#" v-on:click.prevent="toggleExpanded()" class="pure-menu-link"><i class="fa fa-expand"></i></a>
+            <a href="#" v-on:click.prevent="toggleExpanded()" class="pure-menu-link"><i class="fa" v-bind:class="[expanded ? 'fa-compress' : 'fa-expand']"></i></a>
           </li>
           <li class="pure-menu-item menu-small">
             <a href="#" v-on:click.prevent="$dispatch('closeCard', card.id)" class="pure-menu-link"><i class="fa fa-close"></i></a>
@@ -29,8 +29,8 @@
       </div>
     </div>
 
-    <div class="card-row">
-      <component :is="card.main_tile" :data="card.data"></component>
+    <div class="card-row card-row-expand">
+      <component :is="card.main_tile + 'Tile'" :data="card.data"></component>
     </div>
 
     <div class="card-row" v-if="sendTile">
@@ -39,11 +39,11 @@
 
     <div class="card-row pure-menu pure-menu-horizontal">
       <ul class="pure-menu-list menu-flex">
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="changeMainTile('OverviewTile')" class="pure-menu-link" title="Overview"><i class="fa fa-columns"></i></a></li>
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="changeMainTile('FormTile')" class="pure-menu-link" title="Edit"><i class="fa fa-pencil"></i></a></li>
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="changeMainTile('RawTile')" class="pure-menu-link" title="Raw JSON"><i class="fa fa-code"></i></a></li>
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="changeMainTile('MapsTile')" class="pure-menu-link" title="Maps"><i class="fa fa-map"></i></a></li>
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="changeMainTile('ChartTile')" class="pure-menu-link" title="Chart"><i class="fa fa-area-chart"></i></a></li>
+        <li v-for="tile in tileMenu" class="pure-menu-item">
+          <a href="#" v-on:click.prevent="changeMainTile(tile.name)" class="pure-menu-link" title="{{ tile.title }}" v-bind:class="{ 'danger': card.main_tile == tile.name }">
+            <i class="fa {{ tile.icon }}"></i>
+          </a>
+        </li>
         <li class="pure-menu-item"><a href="#" v-on:click.prevent="toggle('sendTile')" class="pure-menu-link" title="Send To"><i class="fa fa-share"></i></a></li>
       </ul>
     </div>
@@ -64,7 +64,15 @@ export default {
   data () {
     return {
       expanded: false,
-      sendTile: false
+      sendTile: false,
+
+      tileMenu: [
+        {name: 'Overview', title: 'Overview', icon: 'fa-columns'},
+        {name: 'Form', title: 'Edit', icon: 'fa-pencil'},
+        {name: 'Raw', title: 'Raw JSON', icon: 'fa-code'},
+        {name: 'Maps', title: 'Maps', icon: 'fa-map'},
+        {name: 'Chart', title: 'Chart', icon: 'fa-area-chart'}
+      ]
     }
   },
 

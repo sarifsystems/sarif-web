@@ -1,5 +1,5 @@
 <template>
-  <div v-el:map style="width: 100%; height: 300px;"></div>
+  <div v-el:map style="width: 100%; height: 100%;"></div>
 </template>
 
 <script>
@@ -15,7 +15,12 @@ function findFeatures (v, group) {
 
   if (typeof v === 'object') {
     if (v.latitude && v.longitude) {
-      var p = L.marker([v.latitude, v.longitude])
+      var p
+      if (v.accuracy) {
+        p = L.circle([v.latitude, v.longitude], v.accuracy)
+      } else {
+        p = L.marker([v.latitude, v.longitude])
+      }
       group.addLayer(p)
     }
     for (var key in v) {
@@ -56,7 +61,6 @@ export default {
 
   methods: {
     updateMap () {
-      console.log('yoah')
       this.features.clearLayers()
       findFeatures(this.data.payload, this.features)
       this.$nextTick(() => {

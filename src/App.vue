@@ -71,19 +71,32 @@ a {
 *:hover > .debug.inspect {
   display: inline;
 }
+
+.cards {
+  display: flex;
+}
+
 .card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: none;
   border-radius: 5px;
   box-shadow: 0 7px 15px 0 rgba(0, 0, 50, 0.1), 0 0 0 1px rgba(0, 0, 50, 0.05);
   margin: 10px;
   min-width: 360px;
-  overflow: auto;
   transition: width 0.2s, height 0.2s, opacity 0.2s;
 }
 
-#cards .card.expanded {
-  height: 600px;
+.cards .card.expanded {
+  min-width: 45%;
+  flex-grow: 1;
+  min-height: 600px;
+}
+
+.card .card-row-expand {
+  min-height: 200px;
+  flex-grow: 1;
 }
 
 .card .card-row + .card-row {
@@ -119,9 +132,13 @@ a {
 }
 
 .prop-object th {
-  width: 80px;
+  white-space: nowrap;
   text-align: left;
 }
+.prop-object td {
+  width: 100%;
+}
+
 .prop-object .prop-item-complex {
   padding-left: 40px;
 }
@@ -144,7 +161,7 @@ a {
 .card textarea.fullsize {
   box-sizing: border-box;
   width: 100%;
-  min-height: 500px;
+  height: 100%;
   white-space: pre;
   overflow: auto;
   border: 0;
