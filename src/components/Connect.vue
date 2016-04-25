@@ -1,0 +1,84 @@
+<template>
+  <div id="connect">
+      <cat
+        head-text="&bull;  &bull;"
+        body-text="&gt;_"></cat>
+
+    <form class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
+      <fieldset>
+        <div class="pure-control-group">
+          <label for="host">Host</label>
+          <input id="host" type="text" v-model="host" placeholder="Host" />
+        </div>
+        <div class="pure-control-group">
+          <label for="device_id">Device ID</label>
+          <input id="device_id" type="text" v-model="device_id" placeholder="Device ID" />
+        </div>
+        <div class="pure-control-group">
+          <label for="auth_token">Auth Token</label>
+          <input id="auth_token" type="password" v-model="auth_token" placeholder="{{auth_hint}}" />
+        </div>
+
+        <div class="pure-controls">
+          <button type="submit" class="pure-button pure-button-primary">Connect</button>
+
+          <p v-if="error" class="danger">Could not connect: {{error}}</p>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</template>
+
+<style>
+#connect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#connect form {
+  margin-top: 50px;
+}
+</style>
+
+<script>
+import Stark from '../stark/service'
+import Cat from './Cat'
+
+export default {
+  data () {
+    return {
+      host: Stark.host,
+      device_id: 'webui',
+      auth_token: '',
+
+      error: null
+    }
+  },
+
+  computed: {
+    auth_hint () {
+      if (this.host === 'local') {
+        return 'Not required'
+      } else {
+        return 'Auth Token'
+      }
+    }
+  },
+
+  methods: {
+    connect () {
+      Stark.connect(this.host, this.device_id, this.auth_token, (error) => {
+        this.error = error
+        if (!error) {
+          this.$router.go('/home')
+        }
+      })
+    }
+  },
+
+  components: {
+    cat: Cat
+  }
+}
+</script>

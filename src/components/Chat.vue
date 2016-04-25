@@ -79,7 +79,7 @@ export default {
       }
 
       this.input.text = ''
-      Stark.request(msg, (reply) => {
+      Stark.client.request(msg, (reply) => {
         this.addMessage(reply, 'in')
       })
 

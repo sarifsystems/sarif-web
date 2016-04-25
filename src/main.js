@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import App from './App'
+import Stark from './stark/service'
+import Connect from './components/Connect'
 import Home from './components/Chat'
 import Daily from './components/Daily'
 import Cards from './components/Cards'
@@ -56,6 +58,10 @@ Vue.filter('prettyObject', function (v) {
 
 export var router = new VueRouter()
 router.map({
+  '/connect': {
+    component: Connect,
+    noAuth: true
+  },
   '/home': {
     component: Home
   },
@@ -72,6 +78,14 @@ router.map({
 
 router.redirect({
   '*': '/home'
+})
+
+router.beforeEach((transition) => {
+  if (transition.to.noAuth || Stark.isConnected()) {
+    transition.next()
+  } else {
+    transition.redirect('/connect')
+  }
 })
 
 router.start(App, '#app')

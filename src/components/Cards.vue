@@ -39,7 +39,7 @@ export default {
       }
 
       this.input.text = ''
-      Stark.request(msg, (reply) => {
+      Stark.client.request(msg, (reply) => {
         Store.addCard({
           data: {msg: reply}
         })

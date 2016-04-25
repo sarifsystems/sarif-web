@@ -1,24 +1,24 @@
-function StarkClient(host, deviceId) {
+function StarkClient(host, deviceId, token) {
   this.host = host;
   this.deviceId = deviceId;
   this.replyHandlers = {};
   this.pubQueue = [];
+  this.connected = false
 
   if ((typeof host == "object") && (typeof host.NewSocketConn == "function")) {
       this.socket = host.NewSocketConn()
   } else {
-	  this.socket = new WebSocket("ws://" + host + "/stream/stark");
+	  this.socket = new WebSocket(host)
   }
   var client = this
 
   this.socket.onopen = function() {
-    console.log('open');
+    client.connected = true
     client.subscribe("ping", "");
     client.subscribe("", "self");
 
     var raw;
     while (raw = client.pubQueue.pop()) {
-      console.log("publishq", raw);
       this.send(raw);
     }
     if (client.onOpen) {
@@ -27,7 +27,6 @@ function StarkClient(host, deviceId) {
   }
 
   this.socket.onmessage = function(raw) {
-    console.log("receive", raw.data);
     var msg = JSON.parse(raw.data);
 
     if (msg.action == "ping") {
@@ -48,12 +47,16 @@ function StarkClient(host, deviceId) {
     }
   }
 
-  this.socket.onclose = function() {
+  this.socket.onclose = function(e) {
+    this.connected = false
     if (client.onClose) {
-      client.onClose();
+      client.onClose(e);
     }
-    console.log('closed');
   }
+}
+
+StarkClient.prototype.isConnected = function() {
+  return this.connected
 }
 
 StarkClient.prototype.publish = function(msg) {
@@ -66,7 +69,6 @@ StarkClient.prototype.publish = function(msg) {
     this.pubQueue.push(raw);
     return;
   }
-  console.log("publish", raw);
   this.socket.send(raw);
 }
 
