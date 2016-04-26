@@ -92,16 +92,9 @@
 
 <script>
 export default {
-  props: [
-    'head-text',
-    'body-text'
-  ],
-
-  data () {
-    return {
-      headText: '=^.^=',
-      bodyText: 'Hi.'
-    }
+  props: {
+    headText: { default: '=^.^=' },
+    bodyText: { default: 'Hi.' }
   },
 
   methods: {

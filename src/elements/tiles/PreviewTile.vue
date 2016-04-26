@@ -69,7 +69,6 @@ export default {
   },
 
   ready () {
-    console.log('moo')
     this.updateContent()
   }
 }

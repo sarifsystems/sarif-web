@@ -2,7 +2,7 @@
   <div id="connect">
       <cat
         head-text="&bull;  &bull;"
-        body-text="&gt;_"></cat>
+        body-text="Hi."></cat>
 
     <form class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
       <fieldset>

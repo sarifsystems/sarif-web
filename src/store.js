@@ -25,6 +25,9 @@ export default {
       }
       delete card.data.msg.p
     }
+    if (!('payload' in card.data)) {
+      card.data.payload = null
+    }
     this.state.cards.push(card)
   },
 
