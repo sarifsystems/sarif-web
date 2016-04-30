@@ -14,7 +14,7 @@
   max-height: 500px;
 }
 .expanded .preview-tile img {
-  max-width: none;
+  width: 100%;
   max-height: none;
 }
 </style>

@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="card-row" v-if="card.data.msg">
+    <div class="card-row" v-if="card.data.msg.text">
       <div class="tile">
         <p>{{ card.data.msg.text | prettyText }}</p>
       </div>
@@ -53,7 +53,6 @@
 <script>
 import RawTile from './tiles/RawTile.vue'
 import OverviewTile from './tiles/OverviewTile.vue'
-import FormTile from './tiles/FormTile.vue'
 import MapsTile from './tiles/MapsTile.vue'
 import ChartTile from './tiles/ChartTile.vue'
 import SendTile from './tiles/SendTile.vue'
@@ -69,7 +68,6 @@ export default {
 
       tileMenu: [
         {name: 'Overview', title: 'Overview', icon: 'fa-columns'},
-        {name: 'Form', title: 'Edit', icon: 'fa-pencil'},
         {name: 'Raw', title: 'Raw JSON', icon: 'fa-code'},
         {name: 'Preview', title: 'Preview', icon: 'fa-image'},
         {name: 'Maps', title: 'Maps', icon: 'fa-map'},
@@ -98,7 +96,6 @@ export default {
   components: {
     RawTile: RawTile,
     OverviewTile: OverviewTile,
-    FormTile: FormTile,
     MapsTile: MapsTile,
     ChartTile: ChartTile,
     SendTile: SendTile,

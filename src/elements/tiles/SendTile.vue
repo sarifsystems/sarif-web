@@ -26,7 +26,7 @@ export default {
         msg.p = JSON.parse(JSON.stringify(this.data.payload))
       }
 
-      Stark.request(msg, (reply) => {
+      Stark.client.request(msg, (reply) => {
         Store.addCard({
           data: {msg: reply}
         })
