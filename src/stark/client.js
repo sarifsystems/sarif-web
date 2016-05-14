@@ -7,7 +7,14 @@ function StarkClient(host, deviceId, token) {
 
   if ((typeof host == "object") && (typeof host.NewSocketConn == "function")) {
       this.socket = host.NewSocketConn()
-  } else {
+  } else if (typeof host == "string") {
+      if (host.indexOf('://') === -1) {
+        host = "wss://" + host + "/stream/stark"
+      }
+      if (token) {
+        host += (host.indexOf("?") !== -1 ? "&" : "?")
+        host += "authtoken=" + encodeURIComponent(token)
+      }
 	  this.socket = new WebSocket(host)
   }
   var client = this
