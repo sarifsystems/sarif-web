@@ -17,7 +17,7 @@
 </style>
 
 <script>
-import Stark from '../stark/service'
+import Sarif from '../sarif/service'
 import Store from '../store'
 import Card from '../elements/Card.vue'
 
@@ -39,7 +39,7 @@ export default {
       }
 
       this.input.text = ''
-      Stark.client.request(msg, (reply) => {
+      Sarif.client.request(msg, (reply) => {
         Store.addCard({
           data: {msg: reply}
         })

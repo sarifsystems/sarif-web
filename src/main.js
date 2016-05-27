@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import App from './App'
-import Stark from './stark/service'
+import Sarif from './sarif/service'
 import Connect from './components/Connect'
 import Home from './components/Chat'
 import Daily from './components/Daily'
@@ -81,7 +81,7 @@ router.redirect({
 })
 
 router.beforeEach((transition) => {
-  if (transition.to.noAuth || Stark.isConnected()) {
+  if (transition.to.noAuth || Sarif.isConnected()) {
     transition.next()
   } else {
     transition.redirect('/connect')

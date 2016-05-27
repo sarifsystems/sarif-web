@@ -52,7 +52,7 @@
 </style>
 
 <script>
-import Stark from '../stark/service'
+import Sarif from '../sarif/service'
 import Cat from './Cat'
 
 export default {
@@ -79,7 +79,7 @@ export default {
       }
 
       this.input.text = ''
-      Stark.client.request(msg, (reply) => {
+      Sarif.client.request(msg, (reply) => {
         this.addMessage(reply, 'in')
       })
 

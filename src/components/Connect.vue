@@ -42,13 +42,13 @@
 </style>
 
 <script>
-import Stark from '../stark/service'
+import Sarif from '../sarif/service'
 import Cat from './Cat'
 
 export default {
   data () {
     return {
-      host: Stark.host,
+      host: Sarif.host,
       device_id: 'webui',
       auth_token: '',
 
@@ -68,7 +68,7 @@ export default {
 
   methods: {
     connect () {
-      Stark.connect(this.host, this.device_id, this.auth_token, (error) => {
+      Sarif.connect(this.host, this.device_id, this.auth_token, (error) => {
         this.error = error
         if (!error) {
           this.$router.go('/home')

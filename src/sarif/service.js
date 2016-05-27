@@ -1,7 +1,7 @@
-import StarkClient from './client'
+import SarifClient from './client'
 
-var host = 'ws://' + window.location.hostname + ':5000/stream/stark'
-if (typeof window.StarkServer !== 'undefined') {
+var host = 'ws://' + window.location.hostname + ':5000/stream/sarif'
+if (typeof window.SarifServer !== 'undefined') {
   host = 'local'
 }
 
@@ -17,9 +17,9 @@ export default {
     }
 
     if (host === 'local') {
-      host = window.StarkServer
+      host = window.SarifServer
     }
-    this.client = new StarkClient(host, deviceId || 'webui', token)
+    this.client = new SarifClient(host, deviceId || 'webui', token)
 
     var oneShot = true
     this.client.onOpen = (e) => {

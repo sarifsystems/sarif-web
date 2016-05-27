@@ -1,4 +1,4 @@
-function StarkClient(host, deviceId, token) {
+function SarifClient(host, deviceId, token) {
   this.host = host;
   this.deviceId = deviceId;
   this.replyHandlers = {};
@@ -9,7 +9,7 @@ function StarkClient(host, deviceId, token) {
       this.socket = host.NewSocketConn()
   } else if (typeof host == "string") {
       if (host.indexOf('://') === -1) {
-        host = "wss://" + host + "/stream/stark"
+        host = "wss://" + host + "/stream/sarif"
       }
       if (token) {
         host += (host.indexOf("?") !== -1 ? "&" : "?")
@@ -62,12 +62,12 @@ function StarkClient(host, deviceId, token) {
   }
 }
 
-StarkClient.prototype.isConnected = function() {
+SarifClient.prototype.isConnected = function() {
   return this.connected
 }
 
-StarkClient.prototype.publish = function(msg) {
-  msg.stark = msg.stark || "0.5"
+SarifClient.prototype.publish = function(msg) {
+  msg.sarif = msg.sarif || "0.5"
   msg.id = msg.id || generateId()
   msg.src = msg.src || this.deviceId
 
@@ -79,7 +79,7 @@ StarkClient.prototype.publish = function(msg) {
   this.socket.send(raw);
 }
 
-StarkClient.prototype.subscribe = function(action, device) {
+SarifClient.prototype.subscribe = function(action, device) {
   if (!device) {
     this.subscribe(action, this.deviceId)
   }
@@ -95,7 +95,7 @@ StarkClient.prototype.subscribe = function(action, device) {
   this.publish(msg)
 }
 
-StarkClient.prototype.request = function(msg, onReply) {
+SarifClient.prototype.request = function(msg, onReply) {
   msg.id = msg.id || generateId()
   this.replyHandlers[msg.id] = onReply;
   var client = this
@@ -116,5 +116,5 @@ function generateId() {
 }
 
 if (typeof module != "undefined") {
-  module.exports = StarkClient
+  module.exports = SarifClient
 }

@@ -1,6 +1,6 @@
-# stark-web
+# sarif-web
 
-An experimental web dashboard for [stark](http://github.com/xconstruct/stark).
+An experimental web dashboard for [sarif](http://github.com/sarifsystems/sarif).
 
 ## Build Setup
 

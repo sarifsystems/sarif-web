@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Stark from '../stark/service'
+import Sarif from '../sarif/service'
 
 export default {
   data () {
@@ -40,7 +40,7 @@ export default {
       var dateEnd = new Date(dateStart.getTime())
       dateEnd.setHours(28)
 
-      Stark.request({
+      Sarif.request({
         action: 'event/list',
         p: {
           after: dateStart.toISOString(),

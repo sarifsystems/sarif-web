@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Stark from '../../stark/service'
+import Sarif from '../../sarif/service'
 import Store from '../../store'
 
 export default {
@@ -26,7 +26,7 @@ export default {
         msg.p = JSON.parse(JSON.stringify(this.data.payload))
       }
 
-      Stark.client.request(msg, (reply) => {
+      Sarif.client.request(msg, (reply) => {
         Store.addCard({
           data: {msg: reply}
         })
