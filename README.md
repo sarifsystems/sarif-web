@@ -3,7 +3,7 @@
 An experimental web dashboard for [sarif](http://github.com/sarifsystems/sarif).
 It is running entirely client-side in the browser and can connect to any Sarif
 server over WebSocket, even locally. A continuous build of the master branch is
-available [here on GitHub Pages](https://sarifsystems.github.io/sarif/sarif-web).
+available [here on GitHub Pages](https://sarifsystems.github.io/sarif-web).
 
 ![Example Screenshot](https://raw.githubusercontent.com/sarifsystems/sarif-web/master/docs/demo.png)
 
