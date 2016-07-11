@@ -81,7 +81,7 @@ a {
 
 .cards {
   display: flex;
-  /* align-items: flex-start; */
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -93,7 +93,7 @@ a {
   border-radius: 5px;
   box-shadow: 0 7px 15px 0 rgba(0, 0, 50, 0.1), 0 0 0 1px rgba(0, 0, 50, 0.05);
   margin: 10px;
-  min-width: 360px;
+  width: 360px;
   transition: width 0.2s, height 0.2s, opacity 0.2s;
 }
 
