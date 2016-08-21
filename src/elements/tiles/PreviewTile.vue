@@ -132,23 +132,23 @@ export default {
 
   data () {
     return {
-      attachments: [],
+      attachments: []
     }
   },
 
   methods: {
     updateContent () {
       if (this.data.attachments && this.data.attachments.length > 0) {
-        this.attachments = this.data.attachments;
-        return;
+        this.attachments = this.data.attachments
+        return
       }
 
       var contents = []
       findContent(this.data.payload, contents)
-      if (contents.length > 0 && contents[0].url.startsWith("image/")) {
+      if (contents.length > 0 && contents[0].url.startsWith('image/')) {
         this.attachments = [{
           image_url: contents[0].url
-        }];
+        }]
       }
     }
   },

@@ -41,14 +41,11 @@ export default {
   },
 
   activate (done) {
-    this.map = L.map(this.$els.map, {
+    this.map = L.mapbox.map(this.$els.map, 'mapbox.streets', {
       zoomControl: false,
-      attributionControl: false
+      attributionControl: false,
+      accessToken: 'pk.eyJ1IjoieGNvbnN0cnVjdCIsImEiOiJjaXM1MG1odXMwMDE5MnRwMDA5YTU4aDhqIn0.5CSrIQYhTJjmfgQ4j9-LAg'
     })
-    var mapUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'
-    var mapSubdomains = ['otile1', 'otile2', 'otile3', 'otile4']
-    var maplayer = new L.TileLayer(mapUrl, {attribution: '', subdomains: mapSubdomains})
-    maplayer.addTo(this.map)
     this.features = L.featureGroup()
     this.map.addLayer(this.features)
 
