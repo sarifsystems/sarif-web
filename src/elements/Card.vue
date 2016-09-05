@@ -67,9 +67,9 @@ export default {
       sendTile: false,
 
       tileMenu: [
+        {name: 'Preview', title: 'Preview', icon: 'fa-image'},
         {name: 'Overview', title: 'Overview', icon: 'fa-columns'},
         {name: 'Raw', title: 'Raw JSON', icon: 'fa-code'},
-        {name: 'Preview', title: 'Preview', icon: 'fa-image'},
         {name: 'Maps', title: 'Maps', icon: 'fa-map'},
         {name: 'Chart', title: 'Chart', icon: 'fa-area-chart'}
       ]

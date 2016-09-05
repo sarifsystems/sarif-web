@@ -5,12 +5,12 @@
     <div class="attachment" v-for="attach in attachments">
       <div class="author" v-if="attach.author_name">
         <img class="icon" v-if="attach.author_icon" :src="attach.author_icon" />
-        <a v-if="attach.author_link" :href="attach.author_link">{{ attach.author_name }}</a>
+        <a v-if="attach.author_link" :href="attach.author_link" target="_blank">{{ attach.author_name }}</a>
         <span v-else>{{ attach.author_name }}</span>
       </div>
 
       <div class="title" v-if="attach.title">
-        <a v-if="attach.title_link" :href="attach.title_link">{{ attach.title }}</a>
+        <a v-if="attach.title_link" :href="attach.title_link" target="_blank">{{ attach.title }}</a>
         <span v-else>{{ attach.title }}</span>
       </div>
       <div class="text" v-if="attach.text">{{ attach.text }}</div>
@@ -138,8 +138,8 @@ export default {
 
   methods: {
     updateContent () {
-      if (this.data.attachments && this.data.attachments.length > 0) {
-        this.attachments = this.data.attachments
+      if (this.data.payload.attachments && this.data.payload.attachments.length > 0) {
+        this.attachments = this.data.payload.attachments
         return
       }
 

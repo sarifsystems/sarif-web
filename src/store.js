@@ -14,7 +14,7 @@ export default {
     card = JSON.parse(JSON.stringify(card))
 
     card.id = this.generateId()
-    card.main_tile = card.main_tile || 'Overview'
+    card.main_tile = card.main_tile || 'Preview'
     card.data = card.data || {}
 
     if (byRef) {
