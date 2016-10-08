@@ -62,6 +62,10 @@ router.map({
     component: Connect,
     noAuth: true
   },
+  '/connect/*host': {
+    component: Connect,
+    noAuth: true
+  },
   '/home': {
     component: Home
   },

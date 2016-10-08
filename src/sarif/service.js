@@ -1,6 +1,6 @@
 import SarifClient from './client'
 
-var host = 'ws://' + window.location.hostname + ':5000/stream/sarif'
+var host = 'ws://' + window.location.hostname + ':5000/socket'
 if (typeof window.SarifServer !== 'undefined') {
   host = 'local'
 }

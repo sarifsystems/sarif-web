@@ -23,10 +23,11 @@ body {
   height: 100%;
   color: #777;
   margin: 0 100px;
-  background: #EDDDCD;
+  /* background: #EDDDCD; */
+  background: #fff;
   /* background: linear-gradient(135deg, rgba(237,237,237,1) 0%, rgba(224,198,172,1) 100%); */
   /* background: linear-gradient(to bottom, #7E97A1 0%, #696F6A 100%); */
-  background: linear-gradient(to right, rgba(244,225,205,1) 0%, rgba(225,235,224,1) 100%);
+  /* background: linear-gradient(to right, rgba(244,225,205,1) 0%, rgba(225,235,224,1) 100%); */
 }
 
 h1, h2 {

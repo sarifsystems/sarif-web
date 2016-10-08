@@ -2,7 +2,7 @@
   <div id="connect">
       <cat
         head-text="&bull;  &bull;"
-        body-text="Hi."></cat>
+        body-text="#"></cat>
 
     <form class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
       <fieldset>
@@ -63,6 +63,15 @@ export default {
       } else {
         return 'Auth Token'
       }
+    }
+  },
+
+  ready () {
+    if (this.$route.params.host) {
+      this.host = this.$route.params.host
+    }
+    if (this.$route.query.auth) {
+      this.auth_token = this.$route.query.auth
     }
   },
 

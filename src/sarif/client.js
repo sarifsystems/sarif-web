@@ -9,11 +9,7 @@ function SarifClient(host, deviceId, token) {
       this.socket = host.NewSocketConn()
   } else if (typeof host == "string") {
       if (host.indexOf('://') === -1) {
-        host = "wss://" + host + "/stream/sarif"
-      }
-      if (token) {
-        host += (host.indexOf("?") !== -1 ? "&" : "?")
-        host += "authtoken=" + encodeURIComponent(token)
+        host = "wss://" + host + "/socket"
       }
 	  this.socket = new WebSocket(host)
   }
@@ -21,16 +17,27 @@ function SarifClient(host, deviceId, token) {
 
   this.socket.onopen = function() {
     client.connected = true
+
+    client.publish({
+      action: "proto/hi",
+      p: {
+        auth: token,
+      },
+    });
+
     client.subscribe("ping", "");
     client.subscribe("", "self");
 
-    var raw;
-    while (raw = client.pubQueue.pop()) {
-      this.send(raw);
-    }
-    if (client.onOpen) {
-      client.onOpen();
-    }
+    // TODO: currently a very crude way to detect if the connection is open
+    client.request({action: "proto/discover/natural/handle"}, function() {
+      var raw;
+      while (raw = client.pubQueue.pop()) {
+        this.send(raw);
+      }
+      if (client.onOpen) {
+        client.onOpen();
+      }
+    });
   }
 
   this.socket.onmessage = function(raw) {

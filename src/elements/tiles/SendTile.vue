@@ -22,6 +22,7 @@ export default {
       delete msg.id
       delete msg.corr
       delete msg.src
+      delete msg.dst
       if (this.data.payload) {
         msg.p = JSON.parse(JSON.stringify(this.data.payload))
       }
