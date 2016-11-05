@@ -4,7 +4,8 @@
         head-text="&bull;  &bull;"
         body-text="#"></cat>
 
-    <form class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
+    <div v-if="connecting" class="connecting">Connecting ...</div>
+    <form v-else class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
       <fieldset>
         <div class="pure-control-group">
           <label for="host">Host</label>
@@ -16,7 +17,7 @@
         </div>
         <div class="pure-control-group">
           <label for="auth_token">Auth Token</label>
-          <input id="auth_token" type="password" v-model="auth_token" placeholder="{{auth_hint}}" />
+          <input id="auth_token" type="text" v-model="auth_token" placeholder="{{auth_hint}}" />
         </div>
 
         <div class="pure-controls">
@@ -36,6 +37,11 @@
   align-items: center;
   justify-content: center;
 }
+#connect .connecting {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 24px;
+}
 #connect form {
   margin-top: 50px;
 }
@@ -52,6 +58,7 @@ export default {
       device_id: 'webui',
       auth_token: '',
 
+      connecting: false,
       error: null
     }
   },
@@ -67,17 +74,20 @@ export default {
   },
 
   ready () {
-    if (this.$route.params.host) {
-      this.host = this.$route.params.host
-    }
     if (this.$route.query.auth) {
       this.auth_token = this.$route.query.auth
+    }
+    if (this.$route.params.host) {
+      this.host = this.$route.params.host
+      this.connect()
     }
   },
 
   methods: {
     connect () {
+      this.connecting = true
       Sarif.connect(this.host, this.device_id, this.auth_token, (error) => {
+        this.connecting = false
         this.error = error
         if (!error) {
           this.$router.go('/home')
