@@ -1,19 +1,19 @@
 <template>
   <template v-if="dataType === 'object'">
     <table v-if="expanded" class="prop-object pure-table pure-table-horizontal">
-      <template class="prop-object-item" v-for="value in data">
+      <template class="prop-object-item" v-for="(value, key) in data">
         <tr v-if="isPrimitive(value)">
           <th>
-            <input placeholder="Key" value="{{ $key }}">
+            <input placeholder="Key" v-bind:value="key">
           </th>
           <td>
-            <input placeholder="Value" value="{{ value }}">
+            <input placeholder="Value" v-bind:value="value">
           </td>
         </tr>
 
         <template v-else>
           <tr><th colspan="2" class="table-collapse">
-            <b>{{ $key | prettyName }}</b>
+            <b>{{ key | prettyName }}</b>
           </th></tr>
           <tr><td colspan="2" class="prop-item-complex">
             <property :data="value"></property>
@@ -76,3 +76,4 @@ export default {
     }
   }
 }
+</script>

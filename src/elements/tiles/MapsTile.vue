@@ -1,5 +1,5 @@
 <template>
-  <div v-el:map style="width: 100%; height: 100%;"></div>
+  <div ref="map" style="width: 100%; height: 100%;"></div>
 </template>
 
 <script>
@@ -40,8 +40,8 @@ export default {
     }
   },
 
-  activate (done) {
-    this.map = L.mapbox.map(this.$els.map, 'mapbox.streets', {
+  mounted (done) {
+    this.map = L.mapbox.map(this.$refs.map, 'mapbox.streets', {
       zoomControl: false,
       attributionControl: false,
       accessToken: 'pk.eyJ1IjoieGNvbnN0cnVjdCIsImEiOiJjaXM1MG1odXMwMDE5MnRwMDA5YTU4aDhqIn0.5CSrIQYhTJjmfgQ4j9-LAg'
@@ -79,3 +79,4 @@ export default {
     }
   }
 }
+</script>

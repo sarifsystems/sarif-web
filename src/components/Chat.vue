@@ -5,7 +5,7 @@
         head-text="&bull;  &bull;"
         body-text="#"></cat>
 
-      <ul v-el:messages class="messages">
+      <ul ref="messages" class="messages">
         <li v-for="msg in history">
           <span v-if="msg.dir == 'in'" class="danger">&laquo;</span>
           <span v-else class="danger">&raquo;</span>
@@ -98,7 +98,7 @@ export default {
       }
 
       this.$nextTick(() => {
-        this.$els.messages.scrollTop = this.$els.messages.scrollHeight
+        this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight
       })
     }
   }

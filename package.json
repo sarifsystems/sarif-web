@@ -7,8 +7,8 @@
     "build": "rimraf dist/* && ncp static dist/static && cross-env NODE_ENV=production webpack --progress --hide-modules --config build/webpack.prod.conf.js"
   },
   "dependencies": {
-    "vue": "^1.0.21",
-    "vue-router": "^0.7.13",
+    "vue": "^2.0.0",
+    "vue-router": "^2.0.0",
     "babel-runtime": "^6.0.0"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "url-loader": "^0.5.7",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.2.2",
-    "vue-loader": "^8.2.3",
+    "vue-loader": "^9.0.0",
     "vue-style-loader": "^1.0.0",
     "webpack": "^1.12.2",
     "webpack-dev-middleware": "^1.4.0",

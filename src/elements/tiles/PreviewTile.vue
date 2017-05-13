@@ -159,8 +159,8 @@ export default {
     }
   },
 
-  ready () {
+  mounted () {
     this.updateContent()
   }
 }
-
+</script>

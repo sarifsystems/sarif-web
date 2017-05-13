@@ -1,13 +1,21 @@
 <template>
-  <nav id="nav" class="pure-menu pure-menu-horizontal">
-    <ul class="pure-menu-list">
-      <li class="pure-menu-item"><a v-link="{ path: '/home' }" class="pure-menu-link">Home</a></li>
-      <li class="pure-menu-item"><a v-link="{ path: '/daily' }" class="pure-menu-link">Daily</a></li>
-      <li class="pure-menu-item"><a v-link="{ path: '/cards' }" class="pure-menu-link">Cards</a></li>
-    </ul>
-  </nav>
-  <div id="app">
-    <router-view keep-alive></router-view>
+  <div id="app-container">
+    <nav id="nav" class="pure-menu pure-menu-horizontal">
+      <ul class="pure-menu-list">
+        <li class="pure-menu-item"><router-link to="/overview"
+            class="pure-menu-link">Overview</router-link></li>
+        <li class="pure-menu-item"><router-link to="/chat"
+            class="pure-menu-link">Chat</router-link></li>
+        <li class="pure-menu-item"><router-link to="/daily" class="pure-menu-link">Daily</router-link></li>
+        <li class="pure-menu-item"><router-link to="/cards" class="pure-menu-link">Cards</router-link></li>
+      </ul>
+    </nav>
+
+    <div id="app">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div>
   </div>
 </template>
 
@@ -17,12 +25,8 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100%;
   color: #777;
-  margin: 0 100px;
   /* background: #EDDDCD; */
   background: #fff;
   /* background: linear-gradient(135deg, rgba(237,237,237,1) 0%, rgba(224,198,172,1) 100%); */
@@ -32,6 +36,14 @@ body {
 
 h1, h2 {
   color: #000;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  margin: 0 100px;
 }
 
 #nav {
@@ -153,10 +165,10 @@ a {
   padding-left: 40px;
 }
 
-.fade-transition {
+.fade-enter-active, .fade-leave-active {
   transition: opacity 0.2s ease;
 }
-.fade-enter, .fade-leave {
+.fade-enter, .fade-leave-active {
   opacity: 0;
 }
 .pure-menu-children {
@@ -187,7 +199,7 @@ export default {
   events: {
     inspect (msg) {
       Store.setInspected(msg)
-      this.$router.go({ path: '/debug' })
+      this.$router.push({ path: '/debug' })
     }
   }
 }

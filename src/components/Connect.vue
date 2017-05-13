@@ -17,7 +17,7 @@
         </div>
         <div class="pure-control-group">
           <label for="auth_token">Auth Token</label>
-          <input id="auth_token" type="text" v-model="auth_token" placeholder="{{auth_hint}}" />
+          <input id="auth_token" type="text" v-model="auth_token" v-bind:placeholder="auth_hint" />
         </div>
 
         <div class="pure-controls">
@@ -73,9 +73,12 @@ export default {
     }
   },
 
-  ready () {
+  mounted () {
     if (this.$route.query.auth) {
       this.auth_token = this.$route.query.auth
+    }
+    if (this.$route.query.device_id) {
+      this.device_id = this.$route.query.device_id
     }
     if (this.$route.params.host) {
       this.host = this.$route.params.host
@@ -90,7 +93,7 @@ export default {
         this.connecting = false
         this.error = error
         if (!error) {
-          this.$router.go('/home')
+          this.$router.push('/home')
         }
       })
     }

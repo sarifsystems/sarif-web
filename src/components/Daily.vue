@@ -1,10 +1,12 @@
 <template>
-  <h1>Daily Overview for {{ date }}</h1>
-  <svg v-el:chart class="timeline"></svg>
-  <div class="pure-g">
-    <div class="pure-u-24-24">
-      <h2>Events</h2>
-      <pre class="code"><code>{{ events | jsonFormat }}</code></pre>
+  <div>
+    <h1>Daily Overview for {{ date }}</h1>
+    <svg ref="chart" class="timeline"></svg>
+    <div class="pure-g">
+      <div class="pure-u-24-24">
+        <h2>Events</h2>
+        <pre class="code"><code>{{ events }}</code></pre>
+      </div>
     </div>
   </div>
 </template>
@@ -38,12 +40,13 @@ export default {
     }
   },
 
-  ready () {
+  mounted () {
     this.changeDate(new Date())
   },
 
   methods: {
     changeDate (date) {
+      console.log('yes')
       this.date = date
 
       var dateStart = new Date(date.getTime())
@@ -77,7 +80,7 @@ export default {
       var xAxis = d3.svg.axis().scale(x).orient('bottom')
       var yAxis = d3.svg.axis().scale(y).orient('left')
 
-      var svg = d3.select(this.$els.chart)
+      var svg = d3.select(this.$refs.chart)
           .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
         .append('g')
@@ -119,3 +122,4 @@ export default {
     }
   }
 }
+</script>

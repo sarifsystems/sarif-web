@@ -18,3 +18,4 @@ export default {
     property: Property
   }
 }
+</script>

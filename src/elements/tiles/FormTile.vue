@@ -15,3 +15,4 @@ export default {
     FormProperty: FormProperty
   }
 }
+</script>

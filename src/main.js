@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import moment from 'moment'
 
 import App from './App'
 import Sarif from './sarif/service'
 import Connect from './components/Connect'
-import Home from './components/Chat'
+import Overview from './components/Overview'
+import Chat from './components/Chat'
 import Daily from './components/Daily'
 import Cards from './components/Cards'
 import Debug from './components/Debug'
@@ -56,40 +58,50 @@ Vue.filter('prettyObject', function (v) {
   return '{ ' + keys.join(', ') + ' }'
 })
 
-export var router = new VueRouter()
-router.map({
-  '/connect': {
-    component: Connect,
-    noAuth: true
-  },
-  '/connect/*host': {
-    component: Connect,
-    noAuth: true
-  },
-  '/home': {
-    component: Home
-  },
-  '/daily': {
-    component: Daily
-  },
-  '/cards': {
-    component: Cards
-  },
-  '/debug': {
-    component: Debug
+Vue.filter('date', function (value, format) {
+  if (value) {
+    return moment(value).format(format || 'l')
   }
 })
 
-router.redirect({
-  '*': '/home'
+Vue.filter('time', function (value, format) {
+  if (value) {
+    return moment(String(value)).format(format || 'llll')
+  }
 })
 
-router.beforeEach((transition) => {
-  if (transition.to.noAuth || Sarif.isConnected()) {
-    transition.next()
+var router = new VueRouter({
+  routes: [
+    {
+      path: '/connect',
+      component: Connect,
+      noAuth: true
+    },
+    {
+      path: '/connect/:host+',
+      component: Connect,
+      noAuth: true
+    },
+    { path: '/overview', component: Overview },
+    { path: '/chat', component: Chat },
+    { path: '/daily', component: Daily },
+    { path: '/cards', component: Cards },
+    { path: '/debug', component: Debug },
+    { path: '*', redirect: '/overview' }
+  ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/connect' || Sarif.isConnected()) {
+    next()
   } else {
-    transition.redirect('/connect')
+    next('/connect')
   }
 })
 
-router.start(App, '#app')
+var app = new Vue({
+  el: '#app-container',
+  router,
+  render: h => h(App)
+})
+app.eslint_no_new = true

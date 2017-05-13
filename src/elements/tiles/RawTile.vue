@@ -1,5 +1,5 @@
 <template>
-  <textarea v-model="textData" debounce="500" class="code fullsize" v-bind:class="{ 'danger': error }"></textarea>
+  <textarea v-model="textData" class="code fullsize" v-bind:class="{ 'danger': error }"></textarea>
 </template>
 
 <script>
@@ -29,3 +29,4 @@ export default {
     }
   }
 }
+</script>

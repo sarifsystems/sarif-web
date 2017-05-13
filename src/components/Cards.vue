@@ -1,12 +1,15 @@
 <template>
-  <form id="cards-form" class="pure-form pure-g" v-on:submit.prevent="send">
-      <input class="pure-u-20-24" type="text" v-model="input.text" placeholder="Talk to me ..." />
-      <button type="submit" class="pure-button pure-button-primary pure-u-4-24">Say</button>
-    </div>
-  </form>
+  <div>
+    <form id="cards-form" class="pure-form pure-g" v-on:submit.prevent="send">
+        <input class="pure-u-20-24" type="text" v-model="input.text" placeholder="Talk to me ..." />
+        <button type="submit" class="pure-button pure-button-primary pure-u-4-24">Say</button>
+    </form>
 
-  <div class="cards">
-    <card v-for="cardData in state.cards" :card="cardData" transition="fade"></card>
+    <div class="cards">
+      <transition-group name="fade">
+        <card v-for="(cardData, key) in state.cards" :key="key" :card="cardData"></card>
+      </transition-group>
+    </div>
   </div>
 </template>
 
@@ -47,17 +50,8 @@ export default {
     }
   },
 
-  events: {
-    closeCard (id) {
-      Store.removeCard(id)
-    },
-
-    addCard (card, byRef) {
-      Store.addCard(card, byRef)
-    }
-  },
-
   components: {
     card: Card
   }
 }
+</script>

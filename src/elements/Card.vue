@@ -8,8 +8,8 @@
           <li class="pure-menu-item pure-menu-allow-hover menu-small">
             <a href="javascript:void();" class="pure-menu-link"><i class="fa fa-paw"></i></a>
             <ul class="pure-menu-children">
-              <li class="pure-menu-item"><a href="#" v-on:click.prevent="$dispatch('addCard', card)" class="pure-menu-link"><i class="fa fa-arrow-right"></i> Clone</a></li>
-              <li class="pure-menu-item"><a href="#" v-on:click.prevent="$dispatch('addCard', card, true)" class="pure-menu-link"><i class="fa fa-link"></i> Reference</a></li>
+              <li class="pure-menu-item"><a href="#" v-on:click.prevent="addCard(card)" class="pure-menu-link"><i class="fa fa-arrow-right"></i> Clone</a></li>
+              <li class="pure-menu-item"><a href="#" v-on:click.prevent="addCard(card, true)" class="pure-menu-link"><i class="fa fa-link"></i> Reference</a></li>
             </ul>
           </li>
 
@@ -17,7 +17,7 @@
             <a href="#" v-on:click.prevent="toggleExpanded()" class="pure-menu-link"><i class="fa" v-bind:class="[expanded ? 'fa-compress' : 'fa-expand']"></i></a>
           </li>
           <li class="pure-menu-item menu-small">
-            <a href="#" v-on:click.prevent="$dispatch('closeCard', card.id)" class="pure-menu-link"><i class="fa fa-close"></i></a>
+            <a href="#" v-on:click.prevent="closeCard(card.id)" class="pure-menu-link"><i class="fa fa-close"></i></a>
           </li>
         </ul>
       </div>
@@ -40,17 +40,20 @@
     <div class="card-row pure-menu pure-menu-horizontal">
       <ul class="pure-menu-list menu-flex">
         <li v-for="tile in tileMenu" class="pure-menu-item">
-          <a href="#" v-on:click.prevent="changeMainTile(tile.name)" class="pure-menu-link" title="{{ tile.title }}" v-bind:class="{ 'danger': card.main_tile == tile.name }">
-            <i class="fa {{ tile.icon }}"></i>
+          <a href="#" v-on:click.prevent="changeMainTile(tile.name)" class="pure-menu-link" v-bind:title="tile.title" v-bind:class="{ 'danger': card.main_tile == tile.name }">
+            <i v-bind:class="'fa ' + tile.icon"></i>
           </a>
         </li>
-        <li class="pure-menu-item"><a href="#" v-on:click.prevent="toggle('sendTile')" class="pure-menu-link" title="Send To"><i class="fa fa-share"></i></a></li>
+        <li class="pure-menu-item"><a href="#" v-on:click.prevent="sendTile = !sendTile" class="pure-menu-link" title="Send To"><i class="fa fa-share"></i></a></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import EventHub from '../EventHub'
+import Store from '../store'
+
 import RawTile from './tiles/RawTile.vue'
 import OverviewTile from './tiles/OverviewTile.vue'
 import MapsTile from './tiles/MapsTile.vue'
@@ -84,12 +87,16 @@ export default {
     toggleExpanded () {
       this.expanded = !this.expanded
       window.setTimeout(() => {
-        this.$broadcast('resize')
+        EventHub.$emit('resize')
       }, 300)
     },
 
-    toggle (option) {
-      this.$set(option, !this.$get(option))
+    addCard (card, byRef) {
+      Store.addCard(card, byRef)
+    },
+
+    closeCard (id) {
+      Store.removeCard(id)
     }
   },
 
@@ -102,3 +109,4 @@ export default {
     PreviewTile: PreviewTile
   }
 }
+</script>

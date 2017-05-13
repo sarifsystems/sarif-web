@@ -1,6 +1,6 @@
 <template>
   <p v-if="error">{{ error }}</p>
-  <div v-else v-el:chart></div>
+  <div v-else ref="chart"></div>
 </template>
 
 <script>
@@ -50,7 +50,7 @@ export default {
     }
   },
 
-  ready () {
+  mounted () {
     this.updateChart()
   },
 
@@ -204,7 +204,7 @@ export default {
             return
           }
           this.chart = chart({
-            el: this.$els.chart
+            el: this.$refs.chart
           })
           this.chart.update()
         })
@@ -212,3 +212,4 @@ export default {
     }
   }
 }
+</script>
