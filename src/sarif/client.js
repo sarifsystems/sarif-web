@@ -122,6 +122,4 @@ function generateId() {
   return text;
 }
 
-if (typeof module != "undefined") {
-  module.exports = SarifClient
-}
+export default SarifClient
