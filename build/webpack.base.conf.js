@@ -1,22 +1,29 @@
 var path = require('path')
+var utils = require('./utils')
+var config = require('../config')
+var vueLoaderConfig = require('./vue-loader.conf')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   entry: {
     app: './src/main.js'
   },
   output: {
-    path: path.resolve(__dirname, '../dist/static'),
-    publicPath: './static/',
-    filename: '[name].js'
+    path: config.build.assetsRoot,
+    filename: '[name].js',
+    publicPath: process.env.NODE_ENV === 'production'
+      ? config.build.assetsPublicPath
+      : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['', '.js', '.vue'],
+    extensions: ['.js', '.vue', '.json'],
     alias: {
-      'src': path.resolve(__dirname, '../src')
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': resolve('src')
     }
-  },
-  resolveLoader: {
-    root: path.join(__dirname, 'node_modules')
   },
   externals: {
     leaflet: 'L',
@@ -24,43 +31,42 @@ module.exports = {
     vega: 'vg'
   },
   module: {
-    preLoaders: [
+    rules: [
+      {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
       {
         test: /\.vue$/,
-        loader: 'eslint',
-        exclude: /node_modules/
+        loader: 'vue-loader',
+        options: vueLoaderConfig
       },
       {
         test: /\.js$/,
-        loader: 'eslint',
-        exclude: /node_modules/
-      }
-    ],
-    loaders: [
-      {
-        test: /\.vue$/,
-        loader: 'vue'
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test')]
       },
       {
-        test: /\.js$/,
-        loader: 'babel',
-        exclude: /node_modules/
-      },
-      {
-        test: /\.json$/,
-        loader: 'json'
-      },
-      {
-        test: /\.(png|jpg|gif|svg)$/,
-        loader: 'url',
-        query: {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
           limit: 10000,
-          name: '[name].[ext]?[hash:7]'
+          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+        }
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
     ]
-  },
-  eslint: {
-    formatter: require('eslint-friendly-formatter')
   }
 }

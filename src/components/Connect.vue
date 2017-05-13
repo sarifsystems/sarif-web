@@ -74,6 +74,8 @@ export default {
   },
 
   mounted () {
+    console.log(this.$route.query)
+    console.log(this.$route.params)
     if (this.$route.query.auth) {
       this.auth_token = this.$route.query.auth
     }

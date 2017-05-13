@@ -1,1 +1,3 @@
 src/sarif/client.js
+build/*.js
+config/*.js
