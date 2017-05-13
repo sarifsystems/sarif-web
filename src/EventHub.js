@@ -1,3 +1,4 @@
 import Vue from 'vue'
 
-export var eventHub = new Vue()
+var EventHub = new Vue()
+export default EventHub
