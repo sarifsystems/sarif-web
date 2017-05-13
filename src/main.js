@@ -12,6 +12,7 @@ import Cards from './components/Cards'
 import Debug from './components/Debug'
 
 Vue.use(VueRouter)
+Vue.config.productionTip = false
 
 Vue.filter('jsonFormat', function (v) {
   return JSON.stringify(v, null, 2)
@@ -72,16 +73,7 @@ Vue.filter('time', function (value, format) {
 
 var router = new VueRouter({
   routes: [
-    {
-      path: '/connect',
-      component: Connect,
-      noAuth: true
-    },
-    {
-      path: '/connect/:host+',
-      component: Connect,
-      noAuth: true
-    },
+    { path: '/connect/:host*', component: Connect },
     { path: '/overview', component: Overview },
     { path: '/chat', component: Chat },
     { path: '/daily', component: Daily },
@@ -92,7 +84,7 @@ var router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/connect' || Sarif.isConnected()) {
+  if (to.path.startsWith('/connect') || Sarif.isConnected()) {
     next()
   } else {
     next('/connect')

@@ -40,7 +40,7 @@ export default {
     }
   },
 
-  mounted (done) {
+  mounted () {
     this.map = L.mapbox.map(this.$refs.map, 'mapbox.streets', {
       zoomControl: false,
       attributionControl: false,
@@ -53,7 +53,6 @@ export default {
     this.$nextTick(() => {
       this.map.invalidateSize()
     })
-    done()
   },
 
   methods: {

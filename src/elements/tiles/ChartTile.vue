@@ -194,7 +194,6 @@ export default {
     updateChart () {
       var spec = this.data.payload && this.data.payload.vega
       if (!spec) {
-        console.log('joah')
         spec = this.deriveSpec()
       }
       this.$nextTick(() => {
