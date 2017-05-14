@@ -1,0 +1,101 @@
+body {
+	color: #bbb;
+	background: #101618;
+}
+
+h1, h2 {
+	color: #fff;
+}
+
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+	font-family: Karla, Helvetica, sans-serif;
+}
+
+input, select, textarea {
+	color: #000;
+}
+
+a {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+.pure-menu a:hover {
+	text-decoration: none;
+}
+
+a {
+	color: #42b983;
+}
+
+.pure-button-primary {
+	background-color: #dd6267;
+}
+
+.danger {
+	color: #dd6267;
+}
+
+.card {
+	color: #777;
+	background: #fefefd;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 7px 15px 0 rgba(0, 0, 50, 0.1), 0 0 0 1px rgba(0, 0, 50, 0.05);
+	transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+
+.card .card-row + .card-row {
+	border-top: 1px solid #ddd;
+}
+
+.pure-menu-children {
+	box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+	font-size: 14px;
+}
+
+.code {
+	font-size: 14px;
+	font-family: 'Source Code Pro', monospace;
+}
+
+#nav {
+	background: #272727;
+}
+
+#nav .pure-menu-link {
+	color: #fff;
+}
+
+#nav .pure-menu-link:hover,
+#nav .pure-menu-link:focus,
+#nav .router-link-active {
+	background: #555;
+}
+
+ul li {
+	list-style-type: square;
+}
+
+.sf-btn-default {
+	background: #444;
+	color: #fff;
+}
+
+.sf-btn-secondary,
+.sf-btn-notice {
+	background: #3cb3ca;
+	color: #fff;
+}
+
+.sf-btn-primary,
+.sf-btn-success {
+	background: #d6224f;
+	color: #fff;
+}
+
+.sf-btn-sm {
+	font-size: 70%;
+}

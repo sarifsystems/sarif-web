@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Daily Overview for {{ date }}</h1>
+    <h1>Daily Overview for {{ date | date('LL') }}</h1>
     <svg ref="chart" class="timeline"></svg>
     <div class="pure-g">
       <div class="pure-u-24-24">
@@ -19,8 +19,11 @@
 .timeline .axis path,
 .timeline .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #777;
   shape-rendering: crispEdges;
+}
+.timeline .axis .tick {
+  fill: #aaa;
 }
 .timeline .dot {
   opacity: 0.5;
@@ -103,7 +106,7 @@ export default {
           .attr('x2', function (d) { return x(d) })
           .attr('y2', height)
           .style('stroke-width', 1)
-          .style('stroke', function (d, i) { return (i > 0 ? '#eee' : '#f00') })
+          .style('stroke', function (d, i) { return (i > 0 ? '#777' : '#7ce1ff') })
 
       var series = svg.selectAll('.series')
           .data(data)
@@ -118,7 +121,7 @@ export default {
           .attr('r', 3.5)
           .attr('cx', function (d) { return x(new Date(d.time)) })
           .attr('cy', 0)
-          .style('fill', 'red')
+          .style('fill', '#7ce1ff')
     }
   }
 }

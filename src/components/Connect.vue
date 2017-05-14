@@ -21,7 +21,7 @@
         </div>
 
         <div class="pure-controls">
-          <button type="submit" class="pure-button pure-button-primary">Connect</button>
+          <button type="submit" class="pure-button sf-btn-primary">Connect</button>
 
           <p v-if="error" class="danger">Could not connect: {{error}}</p>
         </div>
@@ -36,6 +36,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 100px;
 }
 #connect .connecting {
   margin-top: 50px;
@@ -96,9 +97,9 @@ export default {
       this.connecting = true
       Sarif.connect(this.host, this.device_id, this.auth_token, (error) => {
         this.connecting = false
-        this.state.connected = true
         this.error = error
         if (!error) {
+          this.state.connected = true
           this.$router.push('/home')
         }
       })

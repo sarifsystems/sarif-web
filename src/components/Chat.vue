@@ -20,7 +20,7 @@
 
       <form class="pure-form" v-on:submit.prevent="send">
         <input type="text" v-model="input.text" placeholder="Talk to me ..." />
-        <button type="submit" class="pure-button pure-button-primary">Say</button>
+        <button type="submit" class="pure-button sf-btn-primary">Say</button>
       </form>
     </div>
   </div>

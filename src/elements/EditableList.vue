@@ -17,8 +17,8 @@
       </li>
     </ul>
 
-    <button v-on:click="cancel()">Cancel</button>
-    <button v-on:click="save()">Save</button>
+    <button class="pure-button sf-btn-secondary sf-btn-sm" v-on:click="cancel()">Cancel</button>
+    <button class="pure-button sf-btn-success sf-btn-sm" v-on:click="save()">Save</button>
   </div>
 </template>
 

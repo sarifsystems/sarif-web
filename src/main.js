@@ -11,6 +11,8 @@ import Daily from './components/Daily'
 import Cards from './components/Cards'
 import Debug from './components/Debug'
 
+import './assets/css/dark.theme.css'
+
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 
