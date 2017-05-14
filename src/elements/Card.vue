@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="card-row" v-if="card.data.msg.text">
+    <div class="card-row" v-if="card.data.msg && card.data.msg.text">
       <div class="tile">
         <p>{{ card.data.msg.text | prettyText }}</p>
       </div>

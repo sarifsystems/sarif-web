@@ -5,11 +5,9 @@
         <button type="submit" class="pure-button pure-button-primary pure-u-4-24">Say</button>
     </form>
 
-    <div class="cards">
-      <transition-group name="fade">
-        <card v-for="(cardData, key) in state.cards" :key="key" :card="cardData"></card>
-      </transition-group>
-    </div>
+    <transition-group tag="div" name="fade" class="cards">
+      <card v-for="(cardData, key) in state.cards" :key="key" :card="cardData"></card>
+    </transition-group>
   </div>
 </template>
 

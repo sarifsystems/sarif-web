@@ -1,6 +1,13 @@
 <template>
-  <p v-if="error">{{ error }}</p>
-  <div v-else ref="chart"></div>
+  <div>
+    <p v-if="error">{{ error }}</p>
+    <div v-else ref="chart"></div>
+
+    <div>
+      <input type="text" v-model="xAxis" placeholder="X-Axis" @blur="updateChart" />
+      <input type="text" v-model="yAxis" placeholder="Y-Axis" @blur="updateChart" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -38,7 +45,9 @@ export default {
 
   data () {
     return {
-      error: null
+      error: null,
+      xAxis: '',
+      yAxis: ''
     }
   },
 
@@ -66,6 +75,10 @@ export default {
   methods: {
     deriveSpec () {
       var axes = [ 'x', 'timestamp', 'time', 'value', 'count', 'y' ]
+      if (this.xAxis && this.yAxis) {
+        axes = [this.xAxis, this.yAxis]
+      }
+
       var axesCount = {}
       for (var i = 0; i < axes.length; i++) {
         axesCount[axes[i]] = 0
@@ -94,23 +107,26 @@ export default {
       // Identify most frequent axes in dataset
       var xAxis = null
       var yAxis = null
-      for (var axis in axesCount) {
-        if (axesCount[axis] === 0) {
+      for (var ai in axes) {
+        var axis = axes[ai]
+        if (!axesCount[axis]) {
           continue
         }
-        if (!xAxis || axesCount[xAxis] <= axesCount[axis]) {
-          yAxis = xAxis || axis
+        if (!xAxis || axesCount[xAxis] < axesCount[axis]) {
           xAxis = axis
-        } else if (!yAxis || axesCount[yAxis] <= axesCount[axis]) {
+        } else if (!yAxis || axesCount[yAxis] < axesCount[axis]) {
           yAxis = axis
         }
       }
+      yAxis = yAxis || xAxis
       if (!xAxis || !yAxis) {
         return null
       }
       if (axes.indexOf(xAxis) > axes.indexOf(yAxis)) {
         [xAxis, yAxis] = [yAxis, xAxis]
       }
+      this.xAxis = xAxis
+      this.yAxis = yAxis
 
       var xscale = {name: 'x', type: 'ordinal', range: 'width', domain: {data: 'main', field: xAxis}}
       var yscale = {name: 'y', type: 'linear', range: 'height', domain: {data: 'main', field: yAxis}}

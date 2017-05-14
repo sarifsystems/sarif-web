@@ -23,7 +23,7 @@
     </table>
     <div v-else>
       <a href="#" v-on:click.prevent="toggleExpanded()">{{ data | prettyObject }}</a>
-      <a href="#" v-on:click.prevent="$dispatch('addDataCard', data)"><i class="fa fa-arrow-right"></i></a>
+        <a href="#" v-on:click.prevent="addCard({data: {payload: data}})"><i class="fa fa-arrow-right"></i></a>
     </div>
   </template>
 
@@ -38,7 +38,7 @@
     </table>
     <div v-else>
       <a href="#" v-on:click.prevent="toggleExpanded()">{{ data.length }} items</a>
-      <a href="#" v-on:click.prevent="$dispatch('addDataCard', data)"><i class="fa fa-arrow-right"></i></a>
+      <a href="#" v-on:click.prevent="addCard({data: {payload: data}})"><i class="fa fa-arrow-right"></i></a>
     </div>
   </template>
 
@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import Store from '../store'
+
 export default {
   name: 'property',
   props: {
@@ -61,6 +63,10 @@ export default {
 
     toggleExpanded () {
       this.expanded = !this.expanded
+    },
+
+    addDataCard (card) {
+      Store.addCard({data: card})
     }
   },
 
