@@ -12,13 +12,13 @@
         <div class="pure-u-12-24">
           <h3>MAY 2017</h3>
 
-          <editable-list :entries="goals.monthly" />
+          <editable-list :entries="goals.monthly" @save="v => onSave('monthly', v)" />
         </div>
 
         <div class="pure-u-12-24">
           <h3>2017</h3>
 
-          <editable-list :entries="goals.yearly" />
+          <editable-list :entries="goals.yearly" @save="v => onSave('yearly', v)" />
         </div>
       </div>
     </div>
@@ -45,13 +45,15 @@
 </style>
 
 <script>
+import moment from 'moment'
+
 import Sarif from '../sarif/service'
 import EditableList from '../elements/EditableList'
 
 export default {
   data () {
     return {
-      date: new Date(),
+      date: moment(),
       goals: {
         monthly: [],
         yearly: []
@@ -60,24 +62,39 @@ export default {
   },
 
   mounted () {
-    Sarif.client.request({
-      action: 'store/get/goals/2017-05'
-    }, (reply) => {
-      if (reply.p && reply.p.goals) {
-        this.goals.monthly = reply.p.goals.map(text => { return { text: text } })
-      }
-    })
-
-    Sarif.client.request({
-      action: 'store/get/goals/2017'
-    }, (reply) => {
-      if (reply.p && reply.p.goals) {
-        this.goals.yearly = reply.p.goals.map(text => { return { text: text } })
-      }
-    })
+    this.load('monthly')
+    this.load('yearly')
   },
 
   methods: {
+    load (span) {
+      Sarif.client.request({
+        action: 'store/get/goals/' + this.spanToDate(span)
+      }, (reply) => {
+        if (reply.p && reply.p.goals) {
+          this.goals[span] = reply.p.goals.map(text => { return { text: text } })
+        }
+      })
+    },
+
+    onSave (span, goals) {
+      Sarif.client.request({
+        action: 'store/put/goals/' + this.spanToDate(span),
+        p: {
+          goals: goals.map(g => g.text)
+        }
+      }, () => {
+        this.goals[span] = goals
+      })
+    },
+
+    spanToDate (span) {
+      if (span === 'monthly') {
+        return this.date.format('YYYY-MM')
+      } else if (span === 'yearly') {
+        return this.date.format('YYYY')
+      }
+    }
   },
 
   components: {

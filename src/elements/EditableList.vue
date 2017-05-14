@@ -3,7 +3,9 @@
     <ul>
       <li v-for="(entry, index) in entries" v-bind:key="index">{{ entry.text }}</li>
     </ul>
+    <span v-if="!entries || !entries.length">No entries yet.</span>
   </div>
+
   <div v-else>
     <ul>
       <li v-for="(entry, index) in draft" v-bind:key="index">
@@ -21,6 +23,10 @@
 </template>
 
 <script>
+function clone (o) {
+  return JSON.parse(JSON.stringify(o))
+}
+
 export default {
   props: {
     entries: { default: [] }
@@ -37,16 +43,15 @@ export default {
   methods: {
     edit () {
       this.editing = true
-      this.draft = this.entries.slice(0)
+      this.draft = clone(this.entries)
       this.newEntry = ''
     },
 
     save () {
       this.editing = false
       this.addEntry()
-      this.entries.length = 0
-      Array.prototype.push.apply(this.entries,
-        this.draft.filter((n) => { return !!n }))
+      this.draft = this.draft.filter(n => { return !!n.text })
+      this.$emit('save', clone(this.draft))
     },
 
     cancel () {

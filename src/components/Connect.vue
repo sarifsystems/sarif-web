@@ -49,11 +49,14 @@
 
 <script>
 import Sarif from '../sarif/service'
+import Store from '../store'
 import Cat from './Cat'
 
 export default {
   data () {
     return {
+      state: Store.state,
+
       host: Sarif.host,
       device_id: 'webui',
       auth_token: '',
@@ -74,8 +77,8 @@ export default {
   },
 
   mounted () {
-    console.log(this.$route.query)
-    console.log(this.$route.params)
+    this.state.connected = false
+
     if (this.$route.query.auth) {
       this.auth_token = this.$route.query.auth
     }
@@ -93,6 +96,7 @@ export default {
       this.connecting = true
       Sarif.connect(this.host, this.device_id, this.auth_token, (error) => {
         this.connecting = false
+        this.state.connected = true
         this.error = error
         if (!error) {
           this.$router.push('/home')

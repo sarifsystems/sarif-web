@@ -1,5 +1,6 @@
 export default {
   state: {
+    connected: false,
     inspected: null,
 
     cards: []

@@ -1,6 +1,6 @@
 <template>
   <div id="app-container">
-    <nav id="nav" class="pure-menu pure-menu-horizontal">
+    <nav v-if="state.connected" id="nav" class="pure-menu pure-menu-horizontal">
       <ul class="pure-menu-list">
         <li class="pure-menu-item"><router-link to="/overview"
             class="pure-menu-link">Overview</router-link></li>
@@ -196,6 +196,12 @@ a {
 import Store from './store'
 
 export default {
+  data () {
+    return {
+      state: Store.state
+    }
+  },
+
   events: {
     inspect (msg) {
       Store.setInspected(msg)
