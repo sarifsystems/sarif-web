@@ -99,3 +99,11 @@ ul li {
 .sf-btn-sm {
 	font-size: 70%;
 }
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}

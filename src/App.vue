@@ -12,9 +12,18 @@
     </nav>
 
     <div id="app">
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
+      <div v-if="state.connecting" class="connecting">
+        Connecting ...
+      </div>
+      <div v-else-if="reconnect.try" class="connecting">
+        Reconnecting in {{ reconnect.timer }}<br>
+        <a @click="doReconnect()">Reconnect now</a>
+      </div>
+      <div v-else>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +43,12 @@ body {
   align-items: center;
   height: 100%;
   margin: 0 15vw;
+}
+
+#app .connecting {
+  margin-top: 150px;
+  text-align: center;
+  font-size: 48px;
 }
 
 #nav {
@@ -143,19 +158,72 @@ body {
 </style>
 
 <script>
+import Sarif from './sarif/service'
+import EventHub from './EventHub'
 import Store from './store'
 
 export default {
   data () {
     return {
-      state: Store.state
+      state: Store.state,
+      reconnect: {
+        timer: 10,
+        try: 0,
+        active: null
+      }
     }
   },
 
-  events: {
-    inspect (msg) {
-      Store.setInspected(msg)
-      this.$router.push({ path: '/debug' })
+  mounted () {
+    EventHub.on('sarif-connected', () => {
+      this.reconnect.try = 0
+      this.state.connected = true
+      Sarif.client.onMessage = (msg) => {
+        this.notify(msg)
+      }
+    })
+    EventHub.on('sarif-disconnected', () => {
+      this.state.connected = false
+      if (this.reconnect.active) {
+        return
+      }
+
+      this.reconnect.try++
+      if (this.reconnect.try <= 5) {
+        this.reconnect.timer = 10
+      } else if (this.reconnect.try <= 10) {
+        this.reconnect.timer = 30
+      } else {
+        this.reconnect.timer = 60
+      }
+
+      this.reconnect.active = window.setInterval(() => {
+        this.reconnect.timer--
+        if (this.reconnect.timer <= 0) {
+          this.doReconnect()
+        }
+      }, 1000)
+    })
+
+    if (window.Notification && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+  },
+
+  methods: {
+    notify (msg) {
+      if (window.Notification && Notification.permission === 'granted') {
+        var n = new Notification('Sarif message', {body: msg.text})
+        n.eslint_no_new = true
+      }
+    },
+
+    doReconnect () {
+      if (this.reconnect.active) {
+        window.clearInterval(this.reconnect.active)
+        this.reconnect.active = null
+      }
+      Sarif.reconnect()
     }
   }
 }

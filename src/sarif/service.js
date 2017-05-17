@@ -1,4 +1,5 @@
 import SarifClient from './client'
+import EventHub from '../EventHub'
 
 var host = 'ws://' + window.location.hostname + ':5000/socket'
 if (typeof window.SarifServer !== 'undefined') {
@@ -7,19 +8,20 @@ if (typeof window.SarifServer !== 'undefined') {
 
 export default {
   host: host,
+  deviceId: 'webui',
+  token: null,
   client: null,
 
   connect (host, deviceId, token, cb) {
-    if (!host) {
-      host = this.host
-    } else {
-      this.host = host
-    }
+    this.host = host || this.host
+    this.deviceId = deviceId || this.deviceId
+    this.token = token || this.token
 
+    host = this.host
     if (host === 'local') {
       host = window.SarifServer
     }
-    this.client = new SarifClient(host, deviceId || 'webui', token)
+    this.client = new SarifClient(host, this.deviceId, this.token)
 
     var oneShot = true
     this.client.onOpen = (e) => {
@@ -27,6 +29,7 @@ export default {
         cb()
         oneShot = false
       }
+      EventHub.emit('sarif-connected')
     }
     this.client.onClose = (e) => {
       console.log(e)
@@ -34,7 +37,12 @@ export default {
         cb('Unknown WebSocket error.')
         oneShot = false
       }
+      EventHub.emit('sarif-disconnected')
     }
+  },
+
+  reconnect () {
+    return this.connect(this.host, this.deviceId, this.token)
   },
 
   isConnected () {

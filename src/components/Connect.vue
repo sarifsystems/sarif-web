@@ -4,8 +4,7 @@
         head-text="&bull;  &bull;"
         body-text="#"></cat>
 
-    <div v-if="connecting" class="connecting">Connecting ...</div>
-    <form v-else class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
+    <form class="pure-form pure-form-aligned" v-on:submit.prevent="connect">
       <fieldset>
         <div class="pure-control-group">
           <label for="host">Host</label>
@@ -37,11 +36,6 @@
   align-items: center;
   justify-content: center;
   margin-top: 100px;
-}
-#connect .connecting {
-  margin-top: 50px;
-  text-align: center;
-  font-size: 24px;
 }
 #connect form {
   margin-top: 50px;
@@ -78,8 +72,6 @@ export default {
   },
 
   mounted () {
-    this.state.connected = false
-
     if (this.$route.query.auth) {
       this.auth_token = this.$route.query.auth
     }
@@ -94,12 +86,11 @@ export default {
 
   methods: {
     connect () {
-      this.connecting = true
+      this.state.connecting = true
       Sarif.connect(this.host, this.device_id, this.auth_token, (error) => {
-        this.connecting = false
+        this.state.connecting = false
         this.error = error
         if (!error) {
-          this.state.connected = true
           this.$router.push('/home')
         }
       })

@@ -1,5 +1,6 @@
 export default {
   state: {
+    connecting: false,
     connected: false,
     inspected: null,
 
