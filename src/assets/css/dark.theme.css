@@ -75,6 +75,15 @@ a {
 	background: #555;
 }
 
+.text-primary,
+.text-success {
+	color:#d6224f;
+}
+
+.text-secondary {
+	color: #7ce1ff;
+}
+
 ul li {
 	list-style-type: square;
 }

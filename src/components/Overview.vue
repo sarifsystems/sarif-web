@@ -1,8 +1,13 @@
 <template>
   <div class="pure-g">
-    <div class="pure-u-24-24">
+    <div class="pure-u-16-24">
       <h2>Top Tasks for {{ date | date('ll') }}</h2>
       Progressbar
+    </div>
+    <div class="pure-u-8-24">
+      <h2 class="text-primary">{{ habits.balance }} Points</h2>
+      Today: <span class="text-secondary">{{ habits.today }} / {{ habits.goal }}</span><br>
+      Chain: <span class="text-secondary">{{ habits.chain }} days</span>
     </div>
 
     <div class="pure-u-24-24">
@@ -50,6 +55,8 @@ import moment from 'moment'
 import Sarif from '../sarif/service'
 import EditableList from '../elements/EditableList'
 
+var refresh
+
 export default {
   data () {
     return {
@@ -57,6 +64,12 @@ export default {
       goals: {
         monthly: [],
         yearly: []
+      },
+      habits: {
+        chain: 0,
+        balance: 0,
+        today: 0,
+        goal: 0
       }
     }
   },
@@ -64,6 +77,22 @@ export default {
   mounted () {
     this.load('monthly')
     this.load('yearly')
+  },
+
+  activated () {
+    this.loadHabits()
+    if (refresh) {
+      return
+    }
+
+    refresh = window.setInterval(() => {
+      this.loadHabits()
+    }, 5 * 60 * 1000)
+  },
+
+  deactivated () {
+    window.clearInterval(refresh)
+    refresh = null
   },
 
   methods: {
@@ -74,6 +103,14 @@ export default {
         if (reply.p && reply.p.goals) {
           this.goals[span] = reply.p.goals.map(text => { return { text: text } })
         }
+      })
+    },
+
+    loadHabits () {
+      Sarif.client.request({
+        action: 'habits/overview'
+      }, (reply) => {
+        this.habits = reply.p
       })
     },
 

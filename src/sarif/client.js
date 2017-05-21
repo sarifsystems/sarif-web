@@ -53,7 +53,10 @@ function SarifClient(host, deviceId, token) {
     if (msg.corr) {
       var handler = client.replyHandlers[msg.corr]
       if (handler) {
-        return handler(msg)
+        if (handler !== true) {
+          handler(msg);
+        }
+        return
       }
     }
     if (client.onMessage) {
@@ -104,7 +107,7 @@ SarifClient.prototype.subscribe = function(action, device) {
 
 SarifClient.prototype.request = function(msg, onReply) {
   msg.id = msg.id || generateId()
-  this.replyHandlers[msg.id] = onReply;
+  this.replyHandlers[msg.id] = onReply || true;
   var client = this
   window.setTimeout(function() {
     delete client.replyHandlers[msg.id];
