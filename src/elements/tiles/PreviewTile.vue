@@ -1,7 +1,5 @@
 <template>
   <div class="preview-tile">
-    <img v-if="content && content.type.startsWith('image/')" :src="content.url" />
-
     <div class="attachment" v-for="attach in attachments">
       <div class="author" v-if="attach.author_name">
         <img class="icon" v-if="attach.author_icon" :src="attach.author_icon" />
@@ -106,23 +104,31 @@
 </style>
 
 <script>
-function findContent (v, contents) {
+function genAttachments (v, attachments) {
   if (v instanceof Array) {
     for (var i = 0; i < v.length; i++) {
-      findContent(v[i], contents)
+      genAttachments(v[i], attachments)
     }
     return
   }
 
   if (typeof v === 'object') {
-    if (v.url && v.type) {
-      contents.push({
+    if (v.title) {
+      attachments.push({title: v.title})
+    }
+    if (v.body || v.text) {
+      attachments.push({text: v.body || v.text})
+    }
+
+    if (v.url && v.type && v.type.startsWith('image/')) {
+      attachments.push({
         url: v.url,
         type: v.type
       })
     }
+
     for (var key in v) {
-      findContent(v[key], contents)
+      genAttachments(v[key], attachments)
     }
   }
 }
@@ -138,18 +144,16 @@ export default {
 
   methods: {
     updateContent () {
+      if (!this.data.payload) {
+        return
+      }
       if (this.data.payload.attachments && this.data.payload.attachments.length > 0) {
         this.attachments = this.data.payload.attachments
         return
       }
 
-      var contents = []
-      findContent(this.data.payload, contents)
-      if (contents.length > 0 && contents[0].url.startsWith('image/')) {
-        this.attachments = [{
-          image_url: contents[0].url
-        }]
-      }
+      this.attachments = []
+      genAttachments(this.data.payload, this.attachments)
     }
   },
 

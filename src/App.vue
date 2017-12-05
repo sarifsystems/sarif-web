@@ -180,8 +180,22 @@ export default {
       this.state.connected = true
       Sarif.client.onMessage = (msg) => {
         this.notify(msg)
+        if (msg.action === 'notifications/new') {
+          this.addNotification(msg)
+        }
       }
+      Sarif.client.subscribe('notifications/new', '')
+
+      var msg = {action: 'notifications/list'}
+      Sarif.client.request(msg, (reply) => {
+        if (reply.p && reply.p.notifications instanceof Array) {
+          reply.p.notifications.forEach((note) => {
+            this.addNotification(note)
+          })
+        }
+      })
     })
+
     EventHub.on('sarif-disconnected', () => {
       this.state.connected = false
       if (this.reconnect.active) {
@@ -224,6 +238,17 @@ export default {
         this.reconnect.active = null
       }
       Sarif.reconnect()
+    },
+
+    addNotification (msg) {
+      console.log(msg)
+      Store.addCard({
+        id: msg.id,
+        data: {msg: msg},
+        onRemove: () => {
+          Sarif.client.publish({action: 'notifications/read/' + msg.id})
+        }
+      })
     }
   }
 }

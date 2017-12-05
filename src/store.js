@@ -11,17 +11,15 @@ export default {
     this.state.inspected = msg
   },
 
-  addCard (card, byRef) {
-    var orig = card
-    card = JSON.parse(JSON.stringify(card))
-
-    card.id = this.generateId()
+  addCard (card) {
+    if (card.id) {
+      this.removeCard(card.id)
+    }
+    card.id = card.id || this.generateId()
     card.main_tile = card.main_tile || 'Preview'
     card.data = card.data || {}
 
-    if (byRef) {
-      card.data = orig.data
-    } else if (card.data.msg && card.data.msg.p) {
+    if (card.data.msg && card.data.msg.p) {
       if (!card.data.payload) {
         card.data.payload = card.data.msg.p
       }
@@ -31,6 +29,17 @@ export default {
       card.data.payload = null
     }
     this.state.cards.push(card)
+    return card
+  },
+
+  copyCard (card, byRef) {
+    var orig = card
+    card = JSON.parse(JSON.stringify(card))
+    card.id = this.generateId()
+    if (byRef) {
+      card.data = orig.data || {}
+    }
+    return this.addCard(card)
   },
 
   removeCard (id) {

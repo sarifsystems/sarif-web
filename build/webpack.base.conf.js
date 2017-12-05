@@ -26,6 +26,7 @@ module.exports = {
     }
   },
   externals: {
+    ace: 'ace',
     leaflet: 'L',
     d3: 'd3',
     vega: 'vg'

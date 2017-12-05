@@ -8,8 +8,8 @@
           <li class="pure-menu-item pure-menu-allow-hover menu-small">
             <a href="javascript:void();" class="pure-menu-link"><i class="fa fa-paw"></i></a>
             <ul class="pure-menu-children">
-              <li class="pure-menu-item"><a href="#" v-on:click.prevent="addCard(card)" class="pure-menu-link"><i class="fa fa-arrow-right"></i> Clone</a></li>
-              <li class="pure-menu-item"><a href="#" v-on:click.prevent="addCard(card, true)" class="pure-menu-link"><i class="fa fa-link"></i> Reference</a></li>
+              <li class="pure-menu-item"><a href="#" v-on:click.prevent="copyCard(card)" class="pure-menu-link"><i class="fa fa-arrow-right"></i> Clone</a></li>
+              <li class="pure-menu-item"><a href="#" v-on:click.prevent="copyCard(card, true)" class="pure-menu-link"><i class="fa fa-link"></i> Reference</a></li>
             </ul>
           </li>
 
@@ -17,7 +17,7 @@
             <a href="#" v-on:click.prevent="toggleExpanded()" class="pure-menu-link"><i class="fa" v-bind:class="[expanded ? 'fa-compress' : 'fa-expand']"></i></a>
           </li>
           <li class="pure-menu-item menu-small">
-            <a href="#" v-on:click.prevent="closeCard(card.id)" class="pure-menu-link"><i class="fa fa-close"></i></a>
+            <a href="#" v-on:click.prevent="closeCard(card)" class="pure-menu-link"><i class="fa fa-close"></i></a>
           </li>
         </ul>
       </div>
@@ -91,12 +91,15 @@ export default {
       }, 300)
     },
 
-    addCard (card, byRef) {
-      Store.addCard(card, byRef)
+    copyCard (card, byRef) {
+      Store.copyCard(card, byRef)
     },
 
-    closeCard (id) {
-      Store.removeCard(id)
+    closeCard (card) {
+      Store.removeCard(card.id)
+      if (card.onRemove) {
+        card.onRemove()
+      }
     }
   },
 
