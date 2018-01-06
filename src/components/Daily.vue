@@ -49,7 +49,6 @@ export default {
 
   methods: {
     changeDate (date) {
-      console.log('yes')
       this.date = date
 
       var dateStart = new Date(date.getTime())

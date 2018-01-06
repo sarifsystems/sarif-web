@@ -6,6 +6,7 @@
             class="pure-menu-link">Overview</router-link></li>
         <li class="pure-menu-item"><router-link to="/chat"
             class="pure-menu-link">Chat</router-link></li>
+        <li class="pure-menu-item"><router-link to="/calendar" class="pure-menu-link">Calendar</router-link></li>
         <li class="pure-menu-item"><router-link to="/daily" class="pure-menu-link">Daily</router-link></li>
         <li class="pure-menu-item"><router-link to="/cards" class="pure-menu-link">Cards</router-link></li>
       </ul>

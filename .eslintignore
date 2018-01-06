@@ -1,3 +1,4 @@
 src/sarif/client.js
+src/modules/calendar-heatmap.js
 build/*.js
 config/*.js

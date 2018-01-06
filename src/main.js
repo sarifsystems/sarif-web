@@ -7,6 +7,7 @@ import Sarif from './sarif/service'
 import Connect from './components/Connect'
 import Overview from './components/Overview'
 import Chat from './components/Chat'
+import Calendar from './components/Calendar'
 import Daily from './components/Daily'
 import Cards from './components/Cards'
 import Debug from './components/Debug'
@@ -78,6 +79,7 @@ var router = new VueRouter({
     { path: '/connect/:host*', component: Connect },
     { path: '/overview', component: Overview },
     { path: '/chat', component: Chat },
+    { path: '/calendar', component: Calendar },
     { path: '/daily', component: Daily },
     { path: '/cards', component: Cards },
     { path: '/debug', component: Debug },
